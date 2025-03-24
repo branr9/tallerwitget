@@ -1,0 +1,36 @@
+name: taller_flutter
+description: "Aplicación Flutter para el taller de navegación, widgets y ciclo de vida."
+publish_to: "none" # Esto evita que el paquete se publique en pub.dev
+
+# Configuración del entorno de Dart y Flutter
+environment:
+  sdk: ">=3.7.0 <4.0.0"
+
+# Dependencias del proyecto
+dependencies:
+  flutter:
+    sdk: flutter
+  go_router: ^12.1.1  # Librería para navegación
+  cupertino_icons: ^1.0.6 # Iconos de iOS
+  
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^2.0.3 # Buenas prácticas recomendadas para Flutter
+
+# Configuración del framework de Flutter
+flutter:
+  uses-material-design: true
+
+  # Puedes agregar imágenes y otros assets aquí
+  assets:
+    - assets/images/
+
+  # Fuentes personalizadas (si es necesario)
+  fonts:
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/Roboto-Regular.ttf
+        - asset: assets/fonts/Roboto-Bold.ttf
+          weight: 700
