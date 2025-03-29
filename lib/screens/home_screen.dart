@@ -21,30 +21,50 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
 
   // Lista de iconos representativos para cada proceso
   List<IconData> lifecycleIcons = [
-    Icons.add_box, // Creación de Widget
-    Icons.play_circle_fill, // initState
-    Icons.sync, // didChangeDependencies
-    Icons.build, // build
-    Icons.refresh, // setState
-    Icons.delete_forever, // dispose
+    Icons.add_box,
+    Icons.play_circle_fill,
+    Icons.sync,
+    Icons.build,
+    Icons.refresh,
+    Icons.delete_forever,
+  ];
+
+  // NUEVAS FUNCIONALIDADES DEL TALLER
+  List<String> featureTitles = [
+    "Lista de Estudiantes",
+    "Contador (Timer)",
+    "Tarea Pesada (Isolate)",
+  ];
+
+  List<IconData> featureIcons = [
+    Icons.people,
+    Icons.timer,
+    Icons.memory,
+  ];
+
+  List<String> featureRoutes = [
+    "/students",
+    "/counter",
+    "/heavy-task",
   ];
 
   @override
   void initState() {
     super.initState();
-    print("initState ejecutado"); // Se ejecuta al crear el widget
+    print("initState ejecutado");
     _tabController = TabController(length: 2, vsync: this);
   }
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    print("didChangeDependencies ejecutado"); // Se ejecuta cuando cambian dependencias
+    print("didChangeDependencies ejecutado");
   }
 
   @override
   Widget build(BuildContext context) {
-    print("build ejecutado"); // Se ejecuta cada vez que se reconstruye la UI
+    print("build ejecutado");
+
     return Scaffold(
       appBar: AppBar(
         title: Text("HOME"),
@@ -59,35 +79,65 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       body: TabBarView(
         controller: _tabController,
         children: [
+          // GRIDVIEW
           GridView.builder(
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               childAspectRatio: 2,
             ),
-            itemCount: lifecycleSteps.length,
+            itemCount: lifecycleSteps.length + featureTitles.length,
             itemBuilder: (context, index) {
-              return Card(
-                margin: EdgeInsets.all(8),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(lifecycleIcons[index], size: 40, color: Colors.purple), // Ícono representativo
-                    SizedBox(height: 10),
-                    Text(
-                      lifecycleSteps[index],
-                      textAlign: TextAlign.center,
-                      style: TextStyle(fontWeight: FontWeight.bold),
+              if (index < lifecycleSteps.length) {
+                // Tarjetas del ciclo de vida
+                return Card(
+                  margin: EdgeInsets.all(8),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(lifecycleIcons[index], size: 40, color: Colors.purple),
+                      SizedBox(height: 10),
+                      Text(
+                        lifecycleSteps[index],
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
+                );
+              } else {
+                // Tarjetas de funcionalidades del taller
+                final featureIndex = index - lifecycleSteps.length;
+                return GestureDetector(
+                  onTap: () {
+                    context.go(featureRoutes[featureIndex]);
+                  },
+                  child: Card(
+                    color: Colors.grey.shade100,
+                    margin: EdgeInsets.all(8),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(featureIcons[featureIndex], size: 40, color: Colors.deepPurple),
+                        SizedBox(height: 10),
+                        Text(
+                          featureTitles[featureIndex],
+                          textAlign: TextAlign.center,
+                          style: TextStyle(fontWeight: FontWeight.bold),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-              );
+                  ),
+                );
+              }
             },
           ),
+
+          // LISTVIEW (detalle de ciclo de vida)
           ListView.builder(
             itemCount: lifecycleSteps.length,
             itemBuilder: (context, index) {
               return ListTile(
-                leading: Icon(lifecycleIcons[index], color: Colors.purple), // Ícono representativo
+                leading: Icon(lifecycleIcons[index], color: Colors.purple),
                 title: Text(lifecycleSteps[index]),
                 onTap: () {
                   context.go('/detail/${lifecycleSteps[index]}');
@@ -100,7 +150,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           setState(() {
-            print("setState ejecutado"); // Se ejecuta cuando hay un cambio en el estado
+            print("setState ejecutado");
           });
         },
         child: Icon(Icons.refresh),
@@ -111,7 +161,7 @@ class _HomeScreenState extends State<HomeScreen> with SingleTickerProviderStateM
   @override
   void dispose() {
     _tabController.dispose();
-    print("dispose ejecutado"); // Se ejecuta al destruir el widget
+    print("dispose ejecutado");
     super.dispose();
   }
 }
