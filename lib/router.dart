@@ -1,40 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'screens/home_screen.dart';
-import 'screens/detail_screen.dart';
-import 'screens/student_list_screen.dart';
-import 'screens/counter_screen.dart';
-import 'screens/heavy_task_screen.dart';
+import 'screens/listado_screen.dart';
+import 'screens/detalle_screen.dart';
 
 final GoRouter router = GoRouter(
   routes: [
-    // Ruta principal
     GoRoute(
       path: '/',
-      builder: (context, state) => HomeScreen(),
+      name: 'listado',
+      builder: (context, state) => const ListadoScreen(),
     ),
-    // Ruta con parámetro
     GoRoute(
-      path: '/detail/:message',
+      path: '/detalle/:raza',
+      name: 'detalle',
       builder: (context, state) {
-        final message = state.pathParameters['message'] ?? 'Sin mensaje';
-        return DetailScreen(message: message);
+        final raza = state.pathParameters['raza']!;
+        return DetalleScreen(raza: raza);
       },
-    ),
-    // Lista de estudiantes (Future)
-    GoRoute(
-      path: '/students',
-      builder: (context, state) => StudentListScreen(),
-    ),
-    // Contador con Timer
-    GoRoute(
-      path: '/counter',
-      builder: (context, state) => CounterScreen(),
-    ),
-    // Tarea pesada con Isolate
-    GoRoute(
-      path: '/heavy-task',
-      builder: (context, state) => HeavyTaskScreen(),
     ),
   ],
 );
