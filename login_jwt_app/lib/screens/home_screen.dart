@@ -8,7 +8,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final AuthService _authService = AuthService();
-//hola
+
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
       appBar: AppBar(
